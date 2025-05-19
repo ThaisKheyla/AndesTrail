@@ -282,7 +282,6 @@ footer .section__container {
 }
 
 .conteudo section {
-  position: relative;
   width: 100%;
   height: 100vh;
   background-size: cover;
@@ -723,4 +722,165 @@ form button {
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
+}
+/*Página index*/
+.sessao {
+  padding: 60px 40px;
+  border-top: 1px solid var(--hover-cor);
+  text-align: center;
+}
+
+.sessao h2 {
+  font-size: 2.5em;
+  color: var(--cor-primaria);
+  margin-bottom: 30px;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+.sessao p {
+  font-size: 1.2em;
+  color: var(--dark-texto-cor);
+  line-height: 1.6em;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Explorar países */
+.cards-paises {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: var(--branco-bg);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.card h3 {
+  margin-top: 15px;
+  font-size: 1.3em;
+  color: var(--cor-primaria);
+}
+
+.card p {
+  color: var(--dark-texto-cor);
+  font-size: 0.95em;
+  margin-top: 10px;
+}
+
+/* Cultura */
+.lista-cultura {
+  list-style: none;
+  margin-top: 20px;
+  font-size: 1.05em;
+  color: var(--dark-texto-cor);
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.8em;
+  text-align: left;
+  padding: 90px 40px 80px 40px;
+}
+
+/*Listinha*/
+.lista-cultura li {
+  background-color: var(--hover-cor);
+  border-left: 5px solid var(--cor-primaria);
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+#cultura{
+  margin-top: 260px;
+  text-align: center;
+}
+#cultura h2 {
+  font-size: 2.5em;
+  color: var(--cor-primaria);
+  margin-bottom: 20px;
+}
+#cultura p {
+  font-size: 1.2em;
+  color: var(--dark-texto-cor);
+  line-height: 1.6em;
+}
+
+/* Galeria */
+.galeria-imagens {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 10px;
+}
+
+
+.galeria-imagens img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.galeria-imagens img:hover {
+  transform: scale(1.05);
+}
+
+/* Meeee */
+.autora {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+  background-color: var(--extra-light);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.autora img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+.autora div {
+  max-width: 500px;
+  text-align: left;
+}
+
+.autora h3 {
+  color: var(--cor-primaria);
+  font-size: 1.4em;
+  margin-bottom: 10px;
+}
+
+.autora p {
+  color: var(--dark-texto-cor);
+  font-size: 1em;
+  line-height: 1.6em;
 }
