@@ -1,0 +1,72 @@
+main {
+    margin-left: 100px;
+    padding: 2rem;
+    background-color: var(--cor-bg);
+    min-height: 100vh;
+    color: var(--dark-texto-cor);
+}
+
+.card-pais {
+    max-width: 1000px;
+    margin: auto;
+    background-color: var(--branco-bg);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.card-pais img {
+    width: 200px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 2px solid var(--cor-primaria);
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--cor-primaria);
+    margin-bottom: 0.5rem;
+}
+
+section {
+    text-align: left;
+    margin-top: 1.5rem;
+}
+
+section h2 {
+    color: var(--cor-primaria);
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+}
+
+section ul {
+    padding-left: 1.5rem;
+    line-height: 1.6;
+}
+
+#dashboardContainer {
+    display: none;
+    margin-top: 2rem;
+    background: var(--extra-light);
+    padding: 1rem;
+    border-radius: 12px;
+}
+.btn-voltar {
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.btn-voltar:hover {
+    background-color: #003a90;
+}

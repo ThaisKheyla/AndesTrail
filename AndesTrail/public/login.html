@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/login-cadastro.css" />
+    <link rel="stylesheet" href="./css/menu.css" />
+    <link rel="icon" href="./assets/icon/logo.png" />
+    <title>AndesTrail | Login</title>
+</head>
+
+<body>
+  <video autoplay muted loop id="video-fundo">
+    <source src="./assets/videos/video-banner03.mp4" type="video/mp4" />
+    Seu navegador não suporta vídeo HTML5.
+  </video>
+    <!-- Menu lateral -->
+    <div class="container">
+        <ul class="link-items">
+            <div class="logo-container">
+                <img src="./assets/icon/logo.png" alt="Logo AndesTrail" class="logo-menu" />
+            </div>
+
+            <li class="link-item active">
+                <a href="index.html" class="link">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span style="--i: 1">Início</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="explorar.html" class="link">
+                    <ion-icon name="map-outline"></ion-icon>
+                    <span style="--i: 2">Explorar Países</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="cultura.html" class="link">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span style="--i: 3">Cultura</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="galeria.html" class="link">
+                    <ion-icon name="images-outline"></ion-icon>
+                    <span style="--i: 4">Galeria</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="sobre.html" class="link">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span style="--i: 5">Sobre</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="cadastro.html" class="link">
+                    <ion-icon name="log-in-outline"></ion-icon>
+                    <span style="--i: 6">Cadastro</span>
+                </a>
+            </li>
+            <li class="link-item dark-mode">
+                <a href="#" class="link">
+                    <ion-icon name="moon-outline"></ion-icon>
+                    <span style="--i: 7">Modo escuro</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Sessão de login -->
+    <div class="sessao-login">
+        <div class="caixa-erro" id="cardErro">
+            <span id="mensagem_erro"></span>
+        </div>
+
+        <div class="container-login-form">
+            <div class="box-login-form">
+                <h2>Olá de volta!</h2>
+                <div class="area-formulario-login">
+                    <div class="campo-login">
+                        <label for="email_input">E-mail:</label>
+                        <input id="email_input" type="text" placeholder="usuario@gmail.com" />
+                    </div>
+                    <div class="campo-login">
+                        <label for="senha_input">Senha:</label>
+                        <input id="senha_input" type="password" placeholder="******" />
+                    </div>
+                    <button class="botao-login" onclick="entrar()">Entrar</button>
+                </div>
+
+                <div id="div_aguardar" class="aguarde-login" style="display: none;">
+                    <img src="./assets/circle-loading.gif" alt="Carregando..." id="img-loading" />
+                </div>
+                <div id="div_erros_login"></div>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Não tem conta? 
+                    <a href="cadastro.html" style="color: var(--cor-primaria); font-weight: 600; text-decoration: none;">
+                      Cadastre-se
+                    </a>
+                  </p>
+                  
+            </div>
+            
+        </div>
+    </div>
+
+    <!--Script-->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/sessao.js"></script>
+
+    <script>
+
+        function aguardar() {
+            div_aguardar.style.display = "flex";
+        }
+
+        function finalizarAguardar(texto) {
+            div_aguardar.style.display = "none";
+            if (texto) {
+                div_erros_login.style.display = "flex";
+                div_erros_login.innerHTML = texto;
+            }
+        }
+        // Validação
+        if (!usuarioEncontrado) {
+            res.status(401).send("E-mail ou senha inválido.");
+        }
+
+        function entrar() {
+            aguardar();
+            var emailVar = email_input.value;
+            var senhaVar = senha_input.value;
+
+            if (emailVar == "" || senhaVar == "") {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML = "Preencha todos os campos para continuar.";
+                finalizarAguardar();
+                return false;
+            } else {
+                
+                setInterval(sumirMensagem, 5000);
+            }
+
+            fetch('/usuarios/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: emailVar, senha: senhaVar })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const usuarioEncontrado = data.usuario;
+                if (usuarioEncontrado) {
+                    sessionStorage.setItem("NOME_USUARIO", usuarioEncontrado.nome);
+                    window.location = "./acessado/index.html";
+                } else {
+                    // erro de login
+                    finalizarAguardar();
+                    mensagem_erro.innerHTML = "E-mail ou senha inválido.";
+                    cardErro.style.display = "block";
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                finalizarAguardar();
+                mensagem_erro.innerHTML = "Erro na conexão com o servidor.";
+                cardErro.style.display = "block";
+            });
+
+            return false;
+        }
+
+        function sumirMensagem() {
+            cardErro.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaTech | Avisos</title>
+    <link rel="icon" href="./assets/icon/logo.png" />
+    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../css/galeria.css">
+</head>
+<body>
+    <div class="container">
+        <ul class="link-items">
+            <div class="logo-container">
+                <img src="../assets/icon/logo.png" alt="Logo AndesTrail" class="logo-menu">
+            </div>
+            <li class="link-item">
+                <a href="index.html" class="link">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span style="--i: 1">Início</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="explorar.html" class="link">
+                    <ion-icon name="map-outline"></ion-icon>
+                    <span style="--i: 2">Explorar Países</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="cultura.html" class="link">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span style="--i: 3">Cultura</span>
+                </a>
+            </li>
+            <li class="link-item active">
+                <a href="galeria.html" class="link">
+                    <ion-icon name="images-outline"></ion-icon>
+                    <span style="--i: 4">Galeria</span>
+                </a>
+            </li>
+
+            <li class="link-item">
+                <a href="planejador.html" class="link">
+                    <ion-icon name="navigate-outline"></ion-icon>
+                    <span style="--i: 7">Planeje sua Viagem</span>
+                </a>
+            </li>
+            <li class="link-item dark-mode">
+                <a href="#" class="link">
+                    <ion-icon name="moon-outline"></ion-icon>
+                    <span style="--i: 8">Modo escuro</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="../index.html" class="link">
+                    <ion-icon name="log-out-outline"></ion-icon>
+                    <span style="--i: 10">Sair</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="#" class="link">
+                    <img src="../assets/icon/favicon2.png" alt="Imagem do usuário">
+                    <span style="--i: 9">
+                        <div class="hello">
+                            <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                        </div>
+                        <p>Seja bem-vinda!</p>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="galeria-layout">
+        <div id="jogoContainer">
+            <h1>🌍 Adivinhe o Destino</h1>
+
+            <div id="barraProgresso">
+                Pergunta <span id="numPergunta">1</span> de <span id="totalPerguntas">5</span>
+            </div>
+
+            <div id="imagemContainer"></div>
+
+            <div id="opcoesContainer"></div>
+
+            <div id="feedback"></div>
+
+            <div id="curiosidadeContainer"></div>
+
+            <div id="placar">
+                Acertos: <span id="acertos">0</span> | Erros: <span id="erros">0</span>
+            </div>
+
+            <button onclick="proximaPergunta()" id="proximoBtn" style="display:none">Próximo</button>
+            <button onclick="reiniciarJogo()" id="reiniciarBtn" style="display:none; margin-top: 10px;">Reiniciar
+                Jogo</button>
+        </div>
+
+        <div class="kpis">
+            <div class="kpi">
+                <h3 id="kpi-total-jogos">0</h3>
+                <p>Total de Jogos</p>
+            </div>
+            <div class="kpi">
+                <h3 id="kpi-total-acertos">0</h3>
+                <p>Total de Acertos</p>
+            </div>
+            <div class="kpi">
+                <h3 id="kpi-total-erros">0</h3>
+                <p>Total de Erros</p>
+            </div>
+            <div class="kpi">
+                <h3 id="kpi-usuario-top">N/A</h3>
+                <p>Usuário com Mais Acertos</p>
+            </div>
+        </div>
+    </div>
+
+    <!--Script-->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="../js/galeria.js"></script>
+  <script src="../js/script.js"></script>
+  <script>
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+    function enviarResultadosParaBanco(acertos, erros) {
+        const usuario = sessionStorage.NOME_USUARIO || "Anônimo";
+
+        fetch("/quiz/resultados", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                usuario: usuario,
+                acertos: acertos,
+                erros: erros
+            })
+        })
+        .then(res => {
+            if (res.ok) {
+                console.log("Resultados enviados com sucesso!");
+            } else {
+                console.error("Erro ao enviar resultados.");
+            }
+        })
+        .catch(err => {
+            console.error("Erro na requisição:", err);
+        });
+    }
+
+    function mostrarResultadoFinal() {
+        imagemContainer.innerHTML = '';
+        opcoesContainer.innerHTML = '';
+        feedback.textContent = '';
+        curiosidadeContainer.textContent = '';
+
+        const total = perguntas.length;
+        const percentual = Math.round((acertos / total) * 100);
+        
+        var mensagem = `Você acertou ${acertos} de ${total} perguntas (${percentual}%). `;
+
+        if (percentual === 100) {
+            mensagem += 'Incrível! Você é um verdadeiro expert em destinos latino-americanos! 🌟';
+        } else if (percentual >= 60) {
+            mensagem += 'Muito bom! Você conhece bastante sobre esses países.';
+        } else {
+            mensagem += 'Que tal explorar mais sobre esses destinos? A aventura está só começando!';
+        }
+
+        feedback.textContent = mensagem;
+        feedback.style.color = 'blue';
+
+        reiniciarBtn.style.display = 'inline-block';
+        proximoBtn.style.display = 'none';
+
+        // Envia para o banco de dados
+        enviarResultadosParaBanco(acertos, erros);
+    }
+  </script>
+</body>
+</html>
+
+<script>
+const database = require("../database/config");
+
+async function obterKPIs(req, res) {
+    try {
+        const totalJogos = await database.executar("SELECT COUNT(*) AS total FROM resultados_quiz");
+        const totalAcertos = await database.executar("SELECT SUM(acertos) AS total FROM resultados_quiz");
+        const totalErros = await database.executar("SELECT SUM(erros) AS total FROM resultados_quiz");
+        const usuarioTop = await database.executar(`
+            SELECT usuario, SUM(acertos) AS total_acertos 
+            FROM resultados_quiz 
+            GROUP BY usuario 
+            ORDER BY total_acertos DESC 
+            LIMIT 1
+        `);
+
+        res.json({
+            totalJogos: totalJogos[0]?.total || 0,
+            totalAcertos: totalAcertos[0]?.total || 0,
+            totalErros: totalErros[0]?.total || 0,
+            usuarioTop: usuarioTop[0]?.usuario || "N/A",
+        });
+    } catch (error) {
+        console.error("Erro ao obter KPIs:", error);
+        res.status(500).json({ error: "Erro ao obter KPIs" });
+    }
+}
+
+module.exports = { obterKPIs };
+</script>

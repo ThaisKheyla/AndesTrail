@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <link rel="shortcut icon" href="../assets/icon/favicon2.png" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AquaTech | Avisos</title>
+  <link rel="icon" href="./assets/icon/logo.png" />
+  <link rel="stylesheet" href="../css/menu.css">
+  <link rel="stylesheet" href="../css/cultura.css">
+</head>
+
+<body>
+  <div class="container">
+    <ul class="link-items">
+      <div class="logo-container">
+        <img src="../assets/icon/logo.png" alt="Logo AndesTrail" class="logo-menu">
+      </div>
+      <li class="link-item">
+        <a href="index.html" class="link">
+          <ion-icon name="home-outline"></ion-icon>
+          <span style="--i: 1">Início</span>
+        </a>
+      </li>
+      <li class="link-item">
+        <a href="explorar.html" class="link">
+          <ion-icon name="map-outline"></ion-icon>
+          <span style="--i: 2">Explorar Países</span>
+        </a>
+      </li>
+      <li class="link-item active">
+        <a href="cultura.html" class="link">
+          <ion-icon name="book-outline"></ion-icon>
+          <span style="--i: 3">Cultura</span>
+        </a>
+      </li>
+      <li class="link-item">
+        <a href="galeria.html" class="link">
+          <ion-icon name="images-outline"></ion-icon>
+          <span style="--i: 4">Galeria</span>
+        </a>
+      </li>
+
+      <li class="link-item">
+        <a href="planejador.html" class="link">
+          <ion-icon name="navigate-outline"></ion-icon>
+          <span style="--i: 7">Planeje sua Viagem</span>
+        </a>
+      </li>
+      <li class="link-item dark-mode">
+        <a href="#" class="link">
+          <ion-icon name="moon-outline"></ion-icon>
+          <span style="--i: 8">Modo escuro</span>
+        </a>
+      </li>
+      <li class="link-item">
+        <a href="../index.html" class="link">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <span style="--i: 10">Sair</span>
+        </a>
+      </li>
+      <li class="link-item">
+        <a href="#" class="link">
+          <img src="../assets/icon/favicon2.png" alt="Imagem do usuário">
+          <span style="--i: 9">
+            <div class="hello">
+              <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+            <p>Seja bem-vinda!</p>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="main-container">
+    <section class="intro-cultura">
+      <h1>Quer Saber Mais? </h1>
+      <p>
+        A música latino-americana é uma mistura vibrante de ritmos e histórias.<br />
+        Descubra como o samba, a cumbia e o tango refletem as raízes de cada povo.
+      </p>
+      <p class="dica">Deixe a música te guiar nessa viagem cultural! </p>
+    </section>
+
+    <section class="intro-cultura">
+      <h1>Sabores que Encantam </h1>
+      <p>
+        A gastronomia da América Latina é cheia de sabores únicos e ingredientes locais.<br />
+        Experimente pratos típicos como ceviche, empanadas e feijoada.
+      </p>
+      <p class="dica">Uma explosão de sabores espera por você! 🍴</p>
+    </section>
+
+    <section class="intro-cultura">
+      <h1>Tradições e Festivais </h1>
+      <p>
+        Conheça as festas tradicionais que celebram a cultura, a história e a fé dos povos latino-americanos.<br />
+        Carnaval, Inti Raymi e Fiesta de la Virgen são só o começo!
+      </p>
+      <p class="dica">Viva a alegria das tradições locais!</p>
+    </section>
+  </div>
+
+  <div id="quizContainer">
+    <div id="quizBox">
+      <div id="perguntaTexto"></div>
+      <button class="btn" onclick="responder('sim')">Sim</button>
+      <button class="btn" onclick="responder('nao')">Não</button>
+
+      <div id="resultado"></div>
+      <button id="voltarBtn" onclick="reiniciarQuiz()">Voltar ao Início</button>
+    </div>
+
+    <div id="graficoBox">
+      <canvas id="graficoEvolucao" width="400" height="300"></canvas>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    const b_usuario = document.getElementById('b_usuario');
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO || 'usuário';
+
+    const perguntas = [
+      { texto: "Você aprecia tradições locais e artesanato regional?", pais: "paraguai" },
+      { texto: "Você gosta de música animada como o samba ou o forró?", pais: "brasil" },
+      { texto: "Você curte o litoral caribenho e a alegria das pessoas?", pais: "colômbia" },
+      { texto: "Você gosta de danças como cumbia e reggaeton?", pais: "colômbia" },
+      { texto: "Você gosta de paisagens montanhosas e da cultura andina?", pais: "bolívia" },
+      { texto: "Você gosta de lugares menos turísticos, mas cheios de história?", pais: "paraguai" },
+      { texto: "Você gosta de climas variados e vulcões?", pais: "equador" },
+      { texto: "Você admira a força e resistência de um povo em reconstrução?", pais: "venezuela" },
+      { texto: "Você aprecia o tango e a vida urbana de Buenos Aires?", pais: "argentina" },
+      { texto: "Você gosta da culinária com sabores fortes como ceviche?", pais: "peru" },
+      { texto: "Você curte conhecer vilarejos históricos e mercados locais?", pais: "bolívia" },
+      { texto: "Você se atrai por tradições indígenas e misturas históricas?", pais: "peru" },
+      { texto: "Você curte debates políticos e literatura?", pais: "argentina" },
+      { texto: "Você aprecia o mate como bebida do dia a dia?", pais: "uruguai" },
+      { texto: "Você se sente atraído pela cultura guarani e pela natureza verde?", pais: "paraguai" },
+      { texto: "Você curte praias tropicais e ambientes caribenhos?", pais: "venezuela" },
+      { texto: "Você gosta de aventuras em montanhas e neve?", pais: "chile" },
+      { texto: "Você prefere cidades pequenas e estilo de vida calmo?", pais: "uruguai" },
+      { texto: "Você gosta de vinhos e da tranquilidade dos pampas?", pais: "uruguai" },
+      { texto: "Você gosta de carnes e vinhos como parte da cultura?", pais: "argentina" },
+      { texto: "Você admira roupas e festivais tradicionais andinos?", pais: "bolívia" },
+      { texto: "Você gosta de arepas e comidas tradicionais latinas?", pais: "venezuela" },
+      { texto: "Você gosta de vinhos e da tranquilidade dos pampas?", pais: "uruguai" },
+      { texto: "Você ama festas populares como o Carnaval?", pais: "brasil" },
+      { texto: "Você adoraria visitar as Ilhas Galápagos?", pais: "equador" },
+      { texto: "Você gosta de aventuras em montanhas e neve?", pais: "chile" },
+      { texto: "Você se interessa por culturas indígenas e pela Amazônia?", pais: "equador" },
+      { texto: "Você curte praias tropicais e natureza exuberante?", pais: "brasil" },
+      { texto: "Você se interessa por ruínas antigas como Machu Picchu?", pais: "peru" },
+      { texto: "Você aprecia café de qualidade e paisagens verdes?", pais: "colômbia" },
+      { texto: "Você gostaria de visitar o deserto do Atacama e ver paisagens únicas?", pais: "chile" },
+      { texto: "Você se atrai por cultura urbana e contrastes geográficos?", pais: "chile" }
+    ];
+
+
+
+    var indice = 0;
+    var contagem = {};
+
+    const perguntaTexto = document.getElementById('perguntaTexto');
+    const resultado = document.getElementById('resultado');
+    const quizBox = document.getElementById('quizBox');
+
+    // Inicializa gráficooooooo0
+    const paisesUnicos = [...new Set(perguntas.map(p => p.pais))];
+    const ctx = document.getElementById('graficoEvolucao').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: paisesUnicos.map(pais => ({
+          label: pais,
+          data: [],
+          fill: false,
+          borderColor: corAleatoria(),
+          tension: 0.80
+        }))
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true }
+        },
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+
+    function corAleatoria() {
+      return `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
+    }
+
+    function atualizarGrafico() {
+      chart.data.labels.push(`Pergunta ${indice + 1}`);
+      perguntas.forEach((p, i) => {
+        const ds = chart.data.datasets.find(d => d.label === p.pais);
+        ds.data.push(contagem[p.pais] || 0);
+      });
+      chart.update();
+    }
+
+    function mostrarPergunta() {
+      if (indice < perguntas.length) {
+        perguntaTexto.textContent = perguntas[indice].texto;
+      } else {
+        mostrarResultado();
+      }
+    }
+
+    function responder(resposta) {
+      if (resposta === 'sim') {
+        const pais = perguntas[indice].pais;
+        contagem[pais] = (contagem[pais] || 0) + 1;
+      }
+      atualizarGrafico();
+      indice++;
+      mostrarPergunta();
+    }
+    
+    function mostrarResultado() {
+      // Esconde a pergunta e os botões de resposta <3
+      perguntaTexto.style.display = 'none';
+
+      const botoes = quizBox.querySelectorAll('button.btn');
+      botoes.forEach(botao => botao.style.display = 'none');
+
+      // calcula o pais com mais afinidade
+      var paisMaisFrequente = null;
+      var max = 0;
+      for (var pais in contagem) {
+        if (contagem[pais] > max) {
+          max = contagem[pais];
+          paisMaisFrequente = pais;
+        }
+      }
+
+      if (paisMaisFrequente) {
+        const nomePais = paisMaisFrequente.charAt(0).toUpperCase() + paisMaisFrequente.slice(1);
+        resultado.innerHTML = `Você tem mais afinidade com: <strong>${nomePais}</strong>! 🌎`;
+      } else {
+        resultado.textContent = 'Nenhum país correspondeu totalmente às suas respostas. Tente novamente!';
+      }
+
+      document.getElementById('voltarBtn').style.display = 'inline-block';
+    }
+
+
+
+    function reiniciarQuiz() {
+      location.reload();
+    }
+
+    mostrarPergunta();
+  </script>
+  <!--Script-->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="../js/script.js"></script>
+  <script>b_usuario.innerHTML = sessionStorage.NOME_USUARIO;</script>
+</body>
+
+</html>

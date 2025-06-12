@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="titulo-pagina">Informações do País</title>
+  <link rel="stylesheet" href="styles/pais.css" />
+</head>
+<body>
+  <div id="menu-lateral"></div>
+
+  <main class="conteudo">
+    <h1 id="nome-pais">Carregando país...</h1>
+
+    <section class="secao">
+      <h2>Culinária Típica</h2>
+      <p id="culinaria">...</p>
+    </section>
+
+    <section class="secao">
+      <h2>Vestimentas Tradicionais</h2>
+      <p id="vestimentas">...</p>
+    </section>
+
+    <section class="secao">
+      <h2>Pontos Turísticos</h2>
+      <ul id="lugares"></ul>
+    </section>
+
+    <section class="secao">
+      <h2>Curiosidades</h2>
+      <p id="curiosidades">...</p>
+    </section>
+  </main>
+
+  <script>
+    // Obtém o país pela URL (ex: pais.html?nome=peru)
+    const urlParams = new URLSearchParams(window.location.search);
+    const nomePais = urlParams.get('nome');
+
+    async function carregarDadosPais() {
+      try {
+        const resposta = await fetch(`/pais/${nomePais}`); // Rota da API
+        const dados = await resposta.json();
+
+        document.title = `Conheça o ${dados.nome}`;
+        document.getElementById('nome-pais').textContent = dados.nome;
+        document.getElementById('culinaria').textContent = dados.culinaria;
+        document.getElementById('vestimentas').textContent = dados.vestimentas;
+        document.getElementById('curiosidades').textContent = dados.curiosidades;
+
+        const lista = document.getElementById('lugares');
+        lista.innerHTML = '';
+        dados.lugares_turisticos.forEach(lugar => {
+          const item = document.createElement('li');
+          item.textContent = lugar;
+          lista.appendChild(item);
+        });
+
+      } catch (erro) {
+        console.error('Erro ao carregar os dados do país:', erro);
+        document.getElementById('nome-pais').textContent = 'País não encontrado';
+      }
+    }
+
+    carregarDadosPais();
+  </script>
+</body>
+</html>

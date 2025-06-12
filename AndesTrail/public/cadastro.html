@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AndesTrail | Cadastro</title>
+  <link rel="stylesheet" href="./css/login-cadastro.css" />
+  <link rel="stylesheet" href="./css/menu.css">
+  <link rel="icon" href="./assets/icon/logo.png" />
+</head>
+
+<body>
+  <video autoplay muted loop id="video-fundo">
+    <source src="./assets/videos/video-banner03.mp4" type="video/mp4" />
+    Seu navegador não suporta vídeo HTML5.
+  </video>
+    <!-- Menu lateral -->
+    <div class="container">
+      <ul class="link-items">
+          <div class="logo-container">
+              <img src="./assets/icon/logo.png" alt="Logo AndesTrail" class="logo-menu" />
+          </div>
+
+          <li class="link-item active">
+              <a href="index.html" class="link">
+                  <ion-icon name="home-outline"></ion-icon>
+                  <span style="--i: 1">Início</span>
+              </a>
+          </li>
+          <li class="link-item">
+              <a href="explorar.html" class="link">
+                  <ion-icon name="map-outline"></ion-icon>
+                  <span style="--i: 2">Explorar Países</span>
+              </a>
+          </li>
+          <li class="link-item">
+              <a href="cultura.html" class="link">
+                  <ion-icon name="book-outline"></ion-icon>
+                  <span style="--i: 3">Cultura</span>
+              </a>
+          </li>
+          <li class="link-item">
+              <a href="galeria.html" class="link">
+                  <ion-icon name="images-outline"></ion-icon>
+                  <span style="--i: 4">Galeria</span>
+              </a>
+          </li>
+          <li class="link-item">
+              <a href="sobre.html" class="link">
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  <span style="--i: 5">Sobre</span>
+              </a>
+          </li>
+          <li class="link-item">
+              <a href="login.html" class="link">
+                  <ion-icon name="log-in-outline"></ion-icon>
+                  <span style="--i: 6">Login</span>
+              </a>
+          </li>
+          <li class="link-item dark-mode">
+              <a href="#" class="link">
+                  <ion-icon name="moon-outline"></ion-icon>
+                  <span style="--i: 7">Modo escuro</span>
+              </a>
+          </li>
+      </ul>
+  </div>
+
+  <!-- Sessão de cadastro -->
+  <div class="sessao-cadastro">
+    <div class="container-login-form">
+      <div class="box-login-form">
+        <h2>Bem-vindo!</h2>
+
+        <div class="area-formulario-login">
+          <div class="campo-login">
+            <label for="nome_input">Nome:</label>
+            <input id="nome_input" type="text" placeholder="Seu nome" />
+          </div>
+
+          <div class="campo-login">
+            <label for="email_input">E-mail:</label>
+            <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
+          </div>
+
+          <div class="campo-login">
+            <label for="senha_input">Senha:</label>
+            <input id="senha_input" type="password" placeholder="******" />
+          </div>
+
+          <div class="campo-login">
+            <label for="confirmacao_senha_input">Confirme a senha:</label>
+            <input id="confirmacao_senha_input" type="password" placeholder="******" />
+          </div>
+
+          <button class="botao-login" onclick="cadastrar()">Cadastrar</button>
+        </div>
+
+        <!-- Link para ologin -->
+        <p style="text-align: center; margin-top: 1rem;">
+          Já tem uma conta?
+          <a href="login.html" style="color: var(--cor-primaria); font-weight: 600; text-decoration: none;">
+            Faça login
+          </a>
+        </p>
+
+        <div id="div_erros_login"></div>
+      </div>
+    </div>
+  </div>
+    <!--Script-->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/sessao.js"></script>
+
+</body>
+</html>
+
+<script>
+  function cadastrar() {
+    var nomeVar = nome_input.value;
+    var emailVar = email_input.value;
+    var senhaVar = senha_input.value;
+    var confirmacaoSenhaVar = confirmacao_senha_input.value;
+
+    if (!nomeVar || !emailVar || !senhaVar || !confirmacaoSenhaVar) {
+      alert("Preencha todos os campos.");
+      return;
+    }
+
+    if (senhaVar !== confirmacaoSenhaVar) {
+      alert("As senhas não coincidem.");
+      return;
+    }
+
+    fetch('/usuarios/cadastrar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            nome: nomeVar,
+            email: emailVar,
+            senha: senhaVar
+        })
+    })
+    .then(res => {
+      if (res.ok) {
+        alert("Cadastro realizado com sucesso!");
+        window.location.href = "login.html";
+      } else {
+        res.text().then(msg => alert("Erro: " + msg));
+      }
+    })
+    .catch(err => {
+      console.error("Erro ao cadastrar....", err);
+      alert("Erro ao cadastrar.");
+    });
+  }
+</script>

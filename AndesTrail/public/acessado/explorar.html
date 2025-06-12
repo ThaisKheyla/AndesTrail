@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Países</title>
+    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../css/explorar.css">
+</head>
+
+<body>
+    <!-- Menu lateral -->
+    <div class="container">
+        <ul class="link-items">
+            <div class="logo-container">
+                <img src="../assets/icon/logo.png" alt="Logo AndesTrail" class="logo-menu">
+            </div>
+            <li class="link-item">
+                <a href="index.html" class="link">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span style="--i: 1">Início</span>
+                </a>
+            </li>
+            <li class="link-item active">
+                <a href="explorar.html" class="link">
+                    <ion-icon name="map-outline"></ion-icon>
+                    <span style="--i: 2">Explorar Países</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="cultura.html" class="link">
+                    <ion-icon name="book-outline"></ion-icon>
+                    <span style="--i: 3">Cultura</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="galeria.html" class="link">
+                    <ion-icon name="images-outline"></ion-icon>
+                    <span style="--i: 4">Galeria</span>
+                </a>
+            </li>
+
+            <li class="link-item">
+                <a href="planejador.html" class="link">
+                    <ion-icon name="navigate-outline"></ion-icon>
+                    <span style="--i: 7">Planeje sua Viagem</span>
+                </a>
+            </li>
+            <li class="link-item dark-mode">
+                <a href="#" class="link">
+                    <ion-icon name="moon-outline"></ion-icon>
+                    <span style="--i: 8">Modo escuro</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="../index.html" class="link">
+                    <ion-icon name="log-out-outline"></ion-icon>
+                    <span style="--i: 10">Sair</span>
+                </a>
+            </li>
+            <li class="link-item">
+                <a href="#" class="link">
+                    <img src="../assets/icon/favicon2.png" alt="Imagem do usuário">
+                    <span style="--i: 9">
+                        <div class="hello">
+                            <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                        </div>
+                        <p>Seja bem-vinda!</p>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <!-- kpis -->
+        <section class="kpis">
+            <div class="kpi">
+                <h3 id="kpi-total-paises">0</h3>
+                <p>Países cadastrados</p>
+            </div>
+            <div class="kpi">
+                <h3 id="kpi-total-comentarios">0</h3>
+                <p>Comentários recebidos</p>
+            </div>
+            <div class="kpi">
+                <h3 id="kpi-top-pais">--</h3>
+                <p>País mais comentado</p>
+            </div>
+            <div class="kpi">
+                <h3 id="kpi-usuarios">0</h3>
+                <p>Usuários engajados</p>
+            </div>
+        </section>
+        <header>
+            <h1>Explorar América Latina</h1>
+            <p>Descubra países incríveis, culturas fascinantes e destinos imperdíveis. Role para o lado e veja o que
+                cada país tem de especial!</p>
+        </header>
+        <section class="rolagem-cartoes">
+            <div id="container-cartoes" class="cartoes-paises">
+            </div>
+        </section>
+    </main>
+    <!-- Scripts -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="../js/script.js"></script>
+    <script>
+        b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+        function carregarCartoes() {
+            fetch("/pais/listar")
+                .then(resposta => resposta.json())
+                .then(paises => {
+                    var container = document.getElementById("container-cartoes");
+                    container.innerHTML = ""
+                    paises.forEach(pais => {
+                        container.innerHTML += `
+                            <div class="cartao">
+                                <img src="${pais.imagem_url}" alt="${pais.nome}">
+                                <div class="info-cartao">
+                                    <h3>${pais.nome}</h3>
+                                    <p>${pais.descricao}</p>
+                                    <button onclick="verMais('${pais.nome}')">Ver mais</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                });
+        }
+
+        function verMais(nome) {
+            window.location.href = "paises/" + nome.toLowerCase() + ".html";
+        }
+
+        function carregarKPIs() {
+            const paises = document.getElementById("kpi-total-paises");
+            const comentarios = document.getElementById("kpi-total-comentarios");
+            const topPais = document.getElementById("kpi-top-pais");
+            const usuarios = document.getElementById("kpi-usuarios");
+            fetch("/dashboard/kpis")
+                .then(res => res.json())
+                .then(dados => {
+
+                    paises.innerHTML = dados.totalPaises;
+                    comentarios.innerHTML = dados.totalComentarios;
+                    topPais.innerHTML = dados.paisMaisComentado;
+                    usuarios.innerHTML = dados.usuariosEngajados;
+                })
+                .catch(() => {                   
+                    
+                    
+                    
+                    document.getElementById("kpi-total-paises").innerText = 10;
+                    
+                    
+                    document.getElementById("kpi-total-comentarios").innerText = 73;
+                    document.getElementById("kpi-top-pais").innerText = "Brasil";
+                    document.getElementById("kpi-usuarios").innerText = 28;
+                });
+        }
+        
+        window.onload = () => {
+            carregarCartoes();
+            carregarKPIs();
+        };
+    </script>
+</body>
+</html>

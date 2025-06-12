@@ -1,0 +1,26 @@
+.conteudo-pais {
+  margin-left: 250px;
+  padding: 30px;
+  max-width: 800px;
+}
+
+.conteudo-pais h1 {
+  font-size: 32px;
+}
+
+.conteudo-pais img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  margin: 20px 0;
+}
+
+.conteudo-pais p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.conteudo-pais ul {
+  list-style: disc;
+  padding-left: 20px;
+}
